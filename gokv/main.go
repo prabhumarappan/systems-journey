@@ -7,5 +7,5 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println("gokv v0 — nothing here yet; first real code lands in session S13")
+	fmt.Println("gokv v0 — nothing here yet; first real code lands in session S14")
 }
