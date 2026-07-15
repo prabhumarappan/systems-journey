@@ -3,11 +3,11 @@
 Source: <book + chapter / lecture / article link>
 Date: <yyyy-mm-dd>
 
-## My summary (5–10 bullets, written from memory after reading)
+## Questions (jot the moment they occur — don't stop to research)
 
 -
 
-## Questions I still have
+## My summary (5–10 bullets, written from memory after reading)
 
 -
 
