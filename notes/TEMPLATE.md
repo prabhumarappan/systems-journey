@@ -5,14 +5,24 @@ Date: <yyyy-mm-dd>
 
 ## Questions (jot the moment they occur — don't stop to research)
 
--
-
-## My summary (5–10 bullets, written from memory after reading)
+Having questions = reading actively. No questions is the suspicious outcome.
 
 -
 
-## Claude's gap-check notes (filled during ritual)
+## Mind map (my summary — built from memory after reading)
+
+```mermaid
+mindmap
+  root((topic))
+    branch one
+      detail
+    branch two
+```
+
+(Or draw on paper and share a photo in the session. A few fallback bullets are fine too.)
+
+## Claude's gap-check notes (missing branches, wrong arrows — filled during ritual)
 
 -
 
-Diagram: `diagrams/<topic>.md`
+Refined diagram: `diagrams/<topic>.md`
