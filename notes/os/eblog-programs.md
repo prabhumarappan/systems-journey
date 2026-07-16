@@ -7,7 +7,7 @@ Date: July 16 2026
 
 Having questions = reading actively. No questions is the suspicious outcome.
 
-- ~~Don't ALL programs deal with individual bytes/registers?~~ **Answered (S2):** every program *runs* as bytes+registers, but "dealing with" = the level you program at. App code: libraries hide the layout (`json.Marshal`). Systems code: the byte layout IS your interface (e.g. gokv's log record format — endianness, length prefixes, torn writes). Litmus test: if the byte layout could change without your code changing, it's not systems programming.
+- ~~Don't ALL programs deal with individual bytes/registers?~~ **Answered (S2):** every program *runs* as bytes+registers, but "dealing with" = the level you program at. App code: libraries hide the layout (`json.Marshal`). Systems code: the byte layout IS your interface (e.g. gokv's log record format — endianness, length prefixes, torn writes). Litmus test: if the byte layout could change without your code changing, it's not systems programming. Refined (after classify drill): app code *consumes* abstractions (json.Marshal, Go map), systems code *builds* them or reaches beneath. The trait attaches to the CODE, not the project — gokv v0 (map+REPL) is application code; it becomes systems code when concurrency (S24) and my own disk format (S32) arrive.
 
 ## Mind map (my summary — built from memory after reading)
 
