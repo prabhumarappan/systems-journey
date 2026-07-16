@@ -12,7 +12,7 @@
 
 ### M0 · Setup + Go syscalls warmup (eblog "Starting Systems Programming")
 - [x] S1 — Repo scaffolded; `gokv` Go module created *(done with Claude, 2026-07-15)*
-- [ ] S2 — Read pt 1, chapters 1–3 → bullets in `notes/os/eblog-programs.md` → ritual with Claude
+- [x] S2 — Read pt 1, chapters 1–3 → bullets in `notes/os/eblog-programs.md` → ritual with Claude *(2026-07-16)*
 - [ ] S3 — Read pt 1, chapters 4–5 → append bullets → ritual
 - [ ] S4 — Read pt 2 (syscalls & files), chapters 1–3 → bullets in `notes/os/eblog-syscalls.md` → ritual
 - [ ] S5 — Read pt 2, chapters 4–6 → append bullets → ritual
@@ -76,3 +76,4 @@
 | # | Date | What happened | Next step |
 |---|------|---------------|-----------|
 | S1 | 2026-07-15 | Scaffolded repo, plan approved, gokv module created. Resized M0 twice: settled on ~3 blog chapters per session (start small) | S2: read eblog pt 1, chapters 1–3 |
+| S2 | 2026-07-16 | Read eblog pt 1 ch 1–3, full ritual: summary gap-checked (OR not AND on the 3 traits; low-level = bytes/registers; mindset branch), 3/3 probing Qs answered, mind map saved to diagrams/ | S3: read eblog pt 1, chapters 4–5 (data & code segments) |
