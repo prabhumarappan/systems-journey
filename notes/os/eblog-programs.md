@@ -7,13 +7,13 @@ Date: July 16 2026
 
 Having questions = reading actively. No questions is the suspicious outcome.
 
-- ~~Don't ALL programs deal with individual bytes/registers?~~ **Answered (S2):** every program *runs* as bytes+registers, but "dealing with" = the level you program at. App code: libraries hide the layout (`json.Marshal`). Systems code: the byte layout IS your interface (e.g. gokv's log record format — endianness, length prefixes, torn writes). Litmus test: if the byte layout could change without your code changing, it's not systems programming. Refined (after classify drill): app code *consumes* abstractions (json.Marshal, Go map), systems code *builds* them or reaches beneath. The trait attaches to the CODE, not the project — gokv v0 (map+REPL) is application code; it becomes systems code when concurrency (S24) and my own disk format (S32) arrive.
+- ~~Don't ALL programs deal with individual bytes/registers?~~ **Answered (S2):** every program _runs_ as bytes+registers, but "dealing with" = the level you program at. App code: libraries hide the layout (`json.Marshal`). Systems code: the byte layout IS your interface (e.g. gokv's log record format — endianness, length prefixes, torn writes). Litmus test: if the byte layout could change without your code changing, it's not systems programming. Refined (after classify drill): app code _consumes_ abstractions (json.Marshal, Go map), systems code _builds_ them or reaches beneath. The trait attaches to the CODE, not the project — gokv v0 (map+REPL) is application code; it becomes systems code when concurrency (S24) and my own disk format (S32) arrive.
 
-  **The example that made it click (LRU cache → buffer pool):** a leetcode LRU (Go map + container/list, capacity in items) is application code — memory is the GC's problem. The systems version: capacity is a byte budget (say 64MB), entries are fixed-size pages in an array I allocated, eviction picks a victim, dirty pages get written back to disk before dropping (clean ones just forgotten).
+    **The example that made it click (LRU cache → buffer pool):** a leetcode LRU (Go map + container/list, capacity in items) is application code — memory is the GC's problem. The systems version: capacity is a byte budget (say 64MB), entries are fixed-size pages in an array I allocated, eviction picks a victim, dirty pages get written back to disk before dropping (clean ones just forgotten).
 
-  > "So the full picture of your buffer-pool-to-be: your own page array (memory layout: yours) + byte budget accounting (yours) + LRU eviction choosing a victim (yours) + dirty-tracking and write-back through the OS (yours). Every decision the application version outsourced, you've insourced. That's what makes it a systems program."
+    > "So the full picture of your buffer-pool-to-be: your own page array (memory layout: yours) + byte budget accounting (yours) + LRU eviction choosing a victim (yours) + dirty-tracking and write-back through the OS (yours). Every decision the application version outsourced, you've insourced. That's what makes it a systems program."
 
-  This same structure appears twice ahead: OS page replacement (S16) and godb's buffer pool (M6).
+    This same structure appears twice ahead: OS page replacement (S16) and godb's buffer pool (M6).
 
 ## Mind map (my summary — built from memory after reading)
 
@@ -53,6 +53,6 @@ My original prose summary (S2, kept for reference):
 - The three systems-programming traits are alternatives (OR), not requirements (AND) — a program qualifies via any one
 - "Low-level" IS defined in ch 2: dealing with individual bytes or registers
 - Missing branch: the mindset — computer as a fully understandable physical machine; "unafraid to tear something apart, confident they can put it back together"
-- Q3 refinement: daemon = background + detached from terminal; a shell is long-running *interactive* — "takes input" vs "runs forever" is not a dichotomy
+- Q3 refinement: daemon = background + detached from terminal; a shell is long-running _interactive_ — "takes input" vs "runs forever" is not a dichotomy
 
 Refined diagram: `diagrams/eblog-programs.md`

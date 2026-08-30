@@ -7,3 +7,5 @@ Format: `- [ ] (S# / source) question` → when answered: `- [x] (S# → S#) que
 ## Open
 
 ## Answered
+
+- [x] (side thread, S2→S3) Does `io.ReadAll` read the whole file into memory, or fetch more as you loop over it? — whole file, eagerly; and `os.ReadFile` doesn't fix files > RAM. Full thread incl. mmap-vs-buffer-pool: `notes/os/go-file-io-memory.md`
