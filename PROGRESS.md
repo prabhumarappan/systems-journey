@@ -13,8 +13,8 @@
 ### M0 · Setup + Go syscalls warmup (eblog "Starting Systems Programming")
 - [x] S1 — Repo scaffolded; `gokv` Go module created *(done with Claude, 2026-07-15)*
 - [x] S2 — Read pt 1, chapters 1–3 → bullets in `notes/os/eblog-programs.md` → ritual with Claude *(2026-07-16)*
-- [ ] S3 — Read pt 1, chapters 4–5 → append bullets → ritual
-- [ ] S4 — Read pt 2 (syscalls & files), chapters 1–3 → bullets in `notes/os/eblog-syscalls.md` → ritual
+- [x] S3 — Read pt 1, §4.5–4.7 + data/code segment investigations + §5.1 `shexdump`; built `experiments/S3/4.6torsolines.go` (torso→lines exercise); notes in `notes/os/eblog-programs.md` + new `notes/os/bytes-and-numbers.md` *(2026-09-09)*
+- [ ] S4 — Read pt 2 (syscalls & files) §5.1 Users onward → bullets in `notes/os/eblog-syscalls.md` → ritual
 - [ ] S5 — Read pt 2, chapters 4–6 → append bullets → ritual
 - [ ] S6 — Read pt 2, chapters 7–9 → append bullets → ritual
 - [ ] S7 — Build: `experiments/syscalls/` — Go program doing raw open/read/write; watch its syscalls (`dtruss`/`fs_usage` on macOS)
@@ -77,3 +77,4 @@
 |---|------|---------------|-----------|
 | S1 | 2026-07-15 | Scaffolded repo, plan approved, gokv module created. Resized M0 twice: settled on ~3 blog chapters per session (start small) | S2: read eblog pt 1, chapters 1–3 |
 | S2 | 2026-07-16 | Read eblog pt 1 ch 1–3, full ritual: summary gap-checked (OR not AND on the 3 traits; low-level = bytes/registers; mindset branch), 3/3 probing Qs answered, mind map saved to diagrams/ | S3: read eblog pt 1, chapters 4–5 (data & code segments) |
+| S3 | 2026-09-09 | Read §4.5–4.7 + data/code segment investigations + §5.1 `shexdump`. Heavy Q&A + built `4.6torsolines.go` (torso→lines): mode-via-sentinel, ReadFull short reads, the `ReadBytes`/EOF gotcha (3 tries). Reasoned through backward-lines (Strategy A) but didn't implement. Big side-threads captured: ReadAll/mmap/buffer-pool, string blob & `__rodata`, bit shifts/serialization/endianness (→ new `bytes-and-numbers.md`), hex-vs-decimal, linear-scan-vs-index = DB index motivation. Platform gotcha: macOS code-signing SIGKILL on patched binaries (`codesign -f -s -`) | S4: read eblog **pt 2** (startingsystems2.html) — §5.1 Users onward (syscalls & files) |
