@@ -69,6 +69,27 @@
 - **M10** · Raft — paper + 6.824 lectures; Fly.io challenges 4–6; own Raft in Go
 - **M11** · Capstone — Raft-replicated `godb` (toydb architecture as reference)
 
+## Phase 4 — Real-world case study: how MongoDB works *(added 2026-09-11, Prabhu's request)*
+
+The synthesis finale — no new building. Apply everything learned to a real production
+database and see how the primitives you built by hand assemble into a shipping system.
+Comes last, after the KV/`godb` work is done, because it only makes sense once you've built
+the pieces it's made of.
+
+- **M12** · How MongoDB works — map its internals onto what you built:
+  - **Storage engine (WiredTiger):** BSON document model, B+tree on-disk storage, MVCC +
+    snapshots, journaling (WAL), checkpoints, compression. → builds on **M6** (B+tree/buffer
+    pool) + **M7** (WAL/MVCC).
+  - **Indexing:** B+tree indexes; compound, multikey (arrays), partial/sparse/TTL; the query
+    planner and index selection. → builds on **M6**.
+  - **Sharding & replication:** shard keys, chunks, balancer, config servers, `mongos`
+    routing; replica sets with a Raft-like election + the oplog for replication; read/write
+    concerns and consistency tradeoffs. → builds on **M9** (partitioning) + **M10** (Raft).
+  - Resources: MongoDB Architecture Guide + internals docs, WiredTiger docs, Aphyr/Jepsen
+    MongoDB analyses (consistency & sharding failure modes), DDIA cross-refs.
+  - Output: a diagram set mapping *MongoDB component → the gokv/godb primitive it corresponds
+    to*, plus an explain-back session with Claude.
+
 ---
 
 ## Session log
