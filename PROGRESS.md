@@ -66,6 +66,7 @@
 ## Phase 3 — Distributed systems (checklist expanded when Phase 2 nears done)
 
 - **M9** · Fundamentals — Kleppmann lectures + DDIA replication/partitioning; Fly.io dist-sys challenges 1–3
+  - 📖 *The lifecycle of a sharded Postgres query* (PlanetScale/Neki), https://planetscale.com/blog/the-lifecycle-of-a-sharded-postgres-query — ~8k words tracing ONE query end-to-end through a real sharded DB: proxy routing, wire protocol, distributed planning, hash-join/nested-loop across shards, scatter-gather + aggregation, connection pooling. Concrete companion to the DDIA partitioning theory; revisit at M12 to compare with MongoDB sharding.
 - **M10** · Raft — paper + 6.824 lectures; Fly.io challenges 4–6; own Raft in Go
 - **M11** · Capstone — Raft-replicated `godb` (toydb architecture as reference)
 
@@ -86,7 +87,9 @@ the pieces it's made of.
     routing; replica sets with a Raft-like election + the oplog for replication; read/write
     concerns and consistency tradeoffs. → builds on **M9** (partitioning) + **M10** (Raft).
   - Resources: MongoDB Architecture Guide + internals docs, WiredTiger docs, Aphyr/Jepsen
-    MongoDB analyses (consistency & sharding failure modes), DDIA cross-refs.
+    MongoDB analyses (consistency & sharding failure modes), DDIA cross-refs; re-read the
+    PlanetScale sharded-Postgres-query article (M9) and contrast its sharding/routing with
+    MongoDB's `mongos` + shard keys.
   - Output: a diagram set mapping *MongoDB component → the gokv/godb primitive it corresponds
     to*, plus an explain-back session with Claude.
 
