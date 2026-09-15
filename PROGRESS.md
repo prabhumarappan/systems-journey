@@ -67,7 +67,7 @@
 
 - **M9** · Fundamentals — Kleppmann lectures + DDIA replication/partitioning; Fly.io dist-sys challenges 1–3
   - 📖 *The lifecycle of a sharded Postgres query* (PlanetScale/Neki), https://planetscale.com/blog/the-lifecycle-of-a-sharded-postgres-query — ~8k words tracing ONE query end-to-end through a real sharded DB: proxy routing, wire protocol, distributed planning, hash-join/nested-loop across shards, scatter-gather + aggregation, connection pooling. Concrete companion to the DDIA partitioning theory; revisit at M12 to compare with MongoDB sharding.
-- **M10** · Raft — paper + 6.824 lectures; Fly.io challenges 4–6; own Raft in Go
+- **M10** · Raft — paper + MIT 6.5840 (formerly 6.824) lectures + labs; Fly.io challenges 4–6; own Raft in Go. Use it *selectively* (not the whole ~20-lecture course): Raft lectures + Lab 2 (Raft, essential); Lab 3 (KV on Raft) → feeds M11; Lab 4 (sharded KV, optional) → bridges M12. https://pdos.csail.mit.edu/6.824/
 - **M11** · Capstone — Raft-replicated `godb` (toydb architecture as reference)
 
 ## Phase 4 — Real-world case study: how MongoDB works *(added 2026-09-11, Prabhu's request)*
