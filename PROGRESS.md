@@ -58,14 +58,14 @@
 
 ## Phase 2 — Database internals (checklist expanded when Phase 1 nears done)
 
-- **M5** · Bitcask storage engine (~4 wks) — bitcask-intro.pdf, DDIA ch 3, 15-445 lectures 1–4; build keydir + segments + compaction
+- **M5** · Bitcask storage engine (~4 wks) — bitcask-intro.pdf, DDIA 2e (2026) storage & retrieval chapter *[remap to 2e ch# when expanded]*, 15-445 lectures 1–4; build keydir + segments + compaction
 - **M6** · Pages, buffer pools, B+trees (~7 wks, hardest stretch) — 15-445 + Database Internals ch 2–6 + build-your-own.org; disk B+tree → `godb`
-- **M7** · Transactions, WAL, MVCC (~4 wks) — 15-445 + DDIA ch 7
+- **M7** · Transactions, WAL, MVCC (~4 wks) — 15-445 + DDIA 2e (2026) transactions chapter *[remap to 2e ch# when expanded]*
 - **M8** · Tiny SQL layer (optional, ~3 wks)
 
 ## Phase 3 — Distributed systems (checklist expanded when Phase 2 nears done)
 
-- **M9** · Fundamentals — Kleppmann lectures + DDIA replication/partitioning; Fly.io dist-sys challenges 1–3
+- **M9** · Fundamentals — Kleppmann lectures + DDIA 2e (2026) replication & partitioning chapters; Fly.io dist-sys challenges 1–3
   - 📖 *The lifecycle of a sharded Postgres query* (PlanetScale/Neki), https://planetscale.com/blog/the-lifecycle-of-a-sharded-postgres-query — ~8k words tracing ONE query end-to-end through a real sharded DB: proxy routing, wire protocol, distributed planning, hash-join/nested-loop across shards, scatter-gather + aggregation, connection pooling. Concrete companion to the DDIA partitioning theory; revisit at M12 to compare with MongoDB sharding.
 - **M10** · Raft — paper + MIT 6.5840 (formerly 6.824) lectures + labs; Fly.io challenges 4–6; own Raft in Go. Use it *selectively* (not the whole ~20-lecture course): Raft lectures + Lab 2 (Raft, essential); Lab 3 (KV on Raft) → feeds M11; Lab 4 (sharded KV, optional) → bridges M12. https://pdos.csail.mit.edu/6.824/
 - **M11** · Capstone — Raft-replicated `godb` (toydb architecture as reference)
