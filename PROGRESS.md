@@ -61,12 +61,18 @@
 - **M5** · Bitcask storage engine (~4 wks) — bitcask-intro.pdf, DDIA 2e (2026) storage & retrieval chapter *[remap to 2e ch# when expanded]*, 15-445 lectures 1–4; build keydir + segments + compaction
 - **M6** · Pages, buffer pools, B+trees (~7 wks, hardest stretch) — 15-445 + Database Internals ch 2–6 + build-your-own.org; disk B+tree → `godb`
 - **M7** · Transactions, WAL, MVCC (~4 wks) — 15-445 + DDIA 2e (2026) transactions chapter *[remap to 2e ch# when expanded]*
-- **M8** · Tiny SQL layer (optional, ~3 wks)
+- **M8** · Query processing: SQL → plan → execution (~5–6 wks) — **the query-planner milestone** (promoted from "optional tiny SQL layer": query-planner experience is what distributed-systems / DB job posts keep screening for, so this is now core). Build, for `godb`, the full pipeline: parser (query text → AST) → logical plan (relational-algebra tree: scan / filter / project / join / aggregate) → **query planner / optimizer** → physical plan → executor.
+  - *Rule-based optimization:* predicate pushdown, projection pushdown, constant folding, join reordering.
+  - *Physical planning:* access-path choice (sequential scan vs **index scan** — ties straight to M6's B+tree indexes), join-algorithm choice (nested-loop vs hash vs sort-merge).
+  - *Cost-based optimization (stretch):* table statistics, cardinality estimation, Selinger-style join-order dynamic programming.
+  - *Execution model:* Volcano / iterator (`open` → `next` → `close` operators).
+  - Resources: CMU 15-445 query-processing & optimization lectures; Database Internals (query-execution chapters); DDIA 2e query-execution material; Selinger et al., *Access Path Selection in a Relational DBMS* (System R, 1979 — the classic cost-based-optimizer paper); Andy Grove, *How Query Engines Work*; SQLite's *The Next-Generation Query Planner* doc.
+  - Through-line: the planner reappears **distributed** at M9 (PlanetScale article — planning across shards) and in a shipping product at M12 (MongoDB's planner + index selection).
 
 ## Phase 3 — Distributed systems (checklist expanded when Phase 2 nears done)
 
 - **M9** · Fundamentals — Kleppmann lectures + DDIA 2e (2026) replication & partitioning chapters; Fly.io "Gossip Glomers" dist-sys challenges 1–3 (echo → unique IDs → broadcast/gossip), in Go on the Maelstrom harness (injects partitions & message loss). https://fly.io/dist-sys/
-  - 📖 *The lifecycle of a sharded Postgres query* (PlanetScale/Neki), https://planetscale.com/blog/the-lifecycle-of-a-sharded-postgres-query — ~8k words tracing ONE query end-to-end through a real sharded DB: proxy routing, wire protocol, distributed planning, hash-join/nested-loop across shards, scatter-gather + aggregation, connection pooling. Concrete companion to the DDIA partitioning theory; revisit at M12 to compare with MongoDB sharding.
+  - 📖 *The lifecycle of a sharded Postgres query* (PlanetScale/Neki), https://planetscale.com/blog/the-lifecycle-of-a-sharded-postgres-query — ~8k words tracing ONE query end-to-end through a real sharded DB: proxy routing, wire protocol, distributed planning, hash-join/nested-loop across shards, scatter-gather + aggregation, connection pooling. Concrete companion to the DDIA partitioning theory; this is your M8 query planner extended across shards; revisit at M12 to compare with MongoDB sharding.
 - **M10** · Raft — paper + MIT 6.5840 (formerly 6.824) lectures + labs; Fly.io Gossip Glomers challenges 4–6 (grow-only counter → Kafka-style replicated log → totally-available txns — #6 is basically a mini distributed DB, on-ramp to M11); own Raft in Go. Use it *selectively* (not the whole ~20-lecture course): Raft lectures + Lab 2 (Raft, essential); Lab 3 (KV on Raft) → feeds M11; Lab 4 (sharded KV, optional) → bridges M12. https://pdos.csail.mit.edu/6.824/
 - **M11** · Capstone — Raft-replicated `godb` (toydb architecture as reference)
 
@@ -82,7 +88,7 @@ the pieces it's made of.
     snapshots, journaling (WAL), checkpoints, compression. → builds on **M6** (B+tree/buffer
     pool) + **M7** (WAL/MVCC).
   - **Indexing:** B+tree indexes; compound, multikey (arrays), partial/sparse/TTL; the query
-    planner and index selection. → builds on **M6**.
+    planner and index selection. → builds on **M6** + **M8** (your own query planner).
   - **Sharding & replication:** shard keys, chunks, balancer, config servers, `mongos`
     routing; replica sets with a Raft-like election + the oplog for replication; read/write
     concerns and consistency tradeoffs. → builds on **M9** (partitioning) + **M10** (Raft).
