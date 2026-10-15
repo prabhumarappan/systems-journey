@@ -89,7 +89,9 @@ Having questions = reading actively. No questions is the suspicious outcome.
   2 (digits smear across bit boundaries — `240` hides what `F0` shows). Offsets/addresses/magic
   numbers are hex too (`0x1000`=4096, ELF magic `7F 45 4C 46`), so everything speaks one base.
   It's purely a **display** choice — the bytes are identical; hex is just the notation a human
-  can read bits and boundaries in. See [[bytes-and-numbers]] for the shift/serialization thread.
+  can read bits and boundaries in. See [[bytes-and-numbers]] for the shift/serialization thread,
+  and [[text-encoding-unicode-utf8]] for the big follow-on thread (Unicode vs UTF-8 vs fonts,
+  decoding `café`/`é` to code points, Python-vs-Go in-memory text, byte-level string comparison).
 
 #### Exercise: torso → lines (`4.6torsolines.go`)
 
