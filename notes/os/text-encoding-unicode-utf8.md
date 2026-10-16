@@ -6,6 +6,8 @@ Related: [[eblog-programs]], [[bytes-and-numbers]] (the concat step = the shift-
 Big reusable thread. The recurring lesson: **a "character" is never a stored thing — it's an
 interpretation computed from bytes on demand. Storage/transport is always bytes.**
 
+My own recap in my words (built from memory, gap-checked): [[text-encoding-my-summary]].
+
 ## The three layers (the core mental model)
 
 Three *separate* jobs people lump together as "Unicode":
