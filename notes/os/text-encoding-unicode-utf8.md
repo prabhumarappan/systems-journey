@@ -74,6 +74,33 @@ shift-OR as assembling an int from bytes in [[bytes-and-numbers]], with odd grou
   "Character" is an interpretation, not a physical form. Hex/decimal/binary are all human
   *notations* for the same bits; physically it's charge / voltage / magnetic orientation.
 
+## ⭐ IMPORTANT — the `110…` framing does NOT announce the encoding
+
+Easy trap: "but the byte `c3` starts with `110`, so doesn't it *say* it's a 2-byte UTF-8
+character?" **No.** Two different questions, and only the second is answered by the bytes:
+
+1. **Which encoding to use?** → **NOT in the bytes.** The same `c3 a9` decodes to `é` (UTF-8)
+   or `Ã©` (Latin-1) — same bytes, *you* pick the decoder. Proof: `b"\xc3\xa9".decode("utf-8")`
+   = `é`; `b"\xc3\xa9".decode("latin-1")` = `Ã©`.
+2. **Given it's UTF-8, how many bytes is this char?** → **Yes, the `110` lead bits say so.** But
+   that meaning exists *only inside UTF-8's rules, once you've already committed to UTF-8*. A
+   Latin-1 decoder reads the exact same `11000011` as the character `Ã` and has **no concept of
+   lead/continuation bytes** at all — every byte is one character.
+
+So the self-describing framing (`110`, `10`, self-sync) is real, but it's **internal to a
+chosen encoding** — it guides a decoder that is *already* using UTF-8; it can't announce the
+choice itself.
+
+**Consequence (why Python shows `b'\xc3'`):** when Python holds the byte `0xC3`, it knows only
+"the byte `0xC3`" — it does **not** know it's "half of an é," because that would require
+*assuming* UTF-8. Its `bytes` repr refuses to guess: printable ASCII → shown as chars,
+everything else → `\xNN`. Only when you `.decode("utf-8")` does it learn "oh — `c3` is a 2-byte
+lead, so `c3 a9` together make one character, `é`."
+
+> **Bytes are just bytes. "é" is what you get when you *decide* to read them a particular way.**
+> Without a chosen decoder, `c3 a9` is nothing but two raw bytes (195, 169 / `11000011 10101001`)
+> — it could be one character, part of one, two characters, or non-text data; the bytes don't know.
+
 ## Where text lives: always bytes
 
 - **Disk, memory, network — always bytes (binary).** A packet carrying é carries `c3 a9`.
