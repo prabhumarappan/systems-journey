@@ -119,6 +119,37 @@ Modified `torso` to read by *lines* via a `-lines` flag. Design decisions and go
   build a **line index** (byte offset per line) and binary-search — i.e. a database index. That
   linear-scan-vs-index tension is the exact motivation for DB indexes, seen in a file tool.
 
+### S3 (§5.4: binary structure, instruction pointer, endianness)
+
+Worked §5.4 because my Mach-O header output differed from the blog's ELF. Covered: executable
+formats (ELF/Mach-O/PE; format = OS, arch = a header field), load commands vs `__TEXT`, static
+vs dynamic linking (`fmt` baked in vs `libSystem` loaded by `dyld`), the instruction pointer
+(fetch→execute→advance; ARM64 +4 fixed vs x86-64 variable; CALL/RET via return address on the
+stack), and endianness (a CPU-arch property; little vs big; and why the on-disk format must pin
+one order for cross-arch backup/restore). My own-words recap, gap-checked:
+[[binary-formats-my-summary]].
+
+## Closing takeaway — what systems programming is (my words, refined)
+
+Systems programming = **you own the layer where bytes are the interface; you *build* the
+abstraction instead of consuming one.** The litmus (S2): if the byte layout could change without
+your code changing, it's not systems programming.
+
+For a database that shows up as three sibling activities:
+1. **Design your own data format** — decide how records are laid out, then write bytes directly
+   to memory/disk in that format. On the way back, know where to seek, read only the structural
+   bytes you need (length prefixes, headers, offsets) to locate the record, and decode/parse
+   *only as much as needed* — the value payload often stays **opaque bytes** handed back to the
+   caller, never decoded (gokv's model).
+2. **Manage memory yourself** — e.g. the buffer pool: your own page array, a byte budget,
+   eviction, dirty-page write-back. No format involved, still systems programming.
+3. **Talk to the OS/hardware directly** — syscalls, deciding *when* to flush, `fsync`,
+   mmap-vs-read — reaching beneath the abstractions app code takes for granted.
+
+The through-line of the whole article: **a program is nothing but bytes (code bytes +
+data bytes); systems programming is working at that level — and owning what the bytes mean.**
+Full recap of the §5.4 mechanics: [[binary-formats-my-summary]].
+
 ## Mind map (my summary — built from memory after reading)
 
 ```mermaid
