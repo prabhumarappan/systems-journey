@@ -14,6 +14,13 @@ experiments/S3/findoffset
 experiments/S3/findoffset2
 experiments/S3/hackedhello
 experiments/S3/hello
+experiments/S4/4.3.2syscallcat
+experiments/S4/5.0.1printperms
+experiments/S4/5.0.1printperms_syscall
+experiments/S4/5.0.1printperms_syscall_2
+experiments/S4/printargs
+experiments/S4/printenv
+experiments/S4/printenv_exercise1
 
 # Local checkout of the Go source tree (dropped in while exploring stdlib in 4.7) — huge, external
 experiments/S3/go/
