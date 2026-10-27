@@ -6,6 +6,26 @@ Related: [[binary-formats-my-summary]] (execve loads a Mach-O/ELF; libSystem = s
 
 ## ⭐ To capture when I write the S4 summary (reminders)
 
+- **BEFORE the S4 summary: quiz Prabhu specifically on the BIT-MANIPULATION intuition** with
+  concrete worked examples — extract a field `(x >> p) & ((1<<n)-1)`, pick the right mask
+  (`2ⁿ-1`: 1/3/7/15/0xFF), build via shift-OR `(d0<<6)|(d1<<3)|d2`, AND=read/extract vs
+  OR=set/build, `s[i]-'0'` digit trick, octal↔bits. Use made-up mode values and ask him to
+  decode/encode by hand.
+
+- **chmod exercise (§5) — several sharp gotchas to quiz:**
+  - **`Errno` vs `error` nil trap** — `syscall.Syscall`'s 3rd return is `syscall.Errno`; assigning
+    `Errno(0)` into an `error` variable makes it **non-nil** (boxed zero-value interface) → always
+    "errors". Check `errno != 0`, don't box it.
+  - **C-string null-termination** — `open`/`chmod`/`stat` take a path **pointer only, no length**,
+    so the kernel reads to a `\0`. Go `[]byte`/strings are **(ptr,len), no terminator** → must
+    `append(..., 0)` or `BytePtrFromString`. Length-prefix (Go) vs sentinel (C string) — same
+    choice as the `\n` line sentinel + length-prefix tradeoff in [[bytes-and-numbers]].
+  - **`string(int)` rune trap** — `string(644)` = the char at code point 644, NOT `"644"`
+    (use `strconv`). And `s[i]` is a **byte**, `'0'` is a number (code point), so `s[i]-'0'` is
+    arithmetic on code values (digits are consecutive). **No implicit numeric conversions in Go** —
+    hence the `int(...)` to line up `byte` with `int`.
+  - symbolic↔octal: build with shift-OR, extract with shift+mask (two directions of the same bits).
+
 - **After the summary: Prabhu wants a QUIZ across ALL core concepts so far (S2–S4), not just
   S4.** Spans: what systems programming is (own-the-byte-layout) · bytes/numbers (shifts,
   serialization, endianness) · UTF-8/Unicode (3 layers, decode, bytes-don't-carry-encoding) ·
