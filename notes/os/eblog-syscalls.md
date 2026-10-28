@@ -3,6 +3,7 @@
 Source: https://eblog.fly.dev/startingsystems2.html (S4)
 Date: Oct 2026
 Related: [[binary-formats-my-summary]] (execve loads a Mach-O/ELF; libSystem = syscall gateway)
+My own-words recap (§3–5), gap-checked: [[syscalls-my-summary]]. Go footguns: [[go-syscall-gotchas]].
 
 ## ⭐ To capture when I write the S4 summary (reminders)
 
