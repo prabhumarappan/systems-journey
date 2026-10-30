@@ -21,6 +21,7 @@ experiments/S4/5.0.1printperms_syscall_2
 experiments/S4/printargs
 experiments/S4/printenv
 experiments/S4/printenv_exercise1
+experiments/S4/6.1.syscallexec
 
 # Local checkout of the Go source tree (dropped in while exploring stdlib in 4.7) — huge, external
 experiments/S3/go/

@@ -27,6 +27,22 @@ My own-words recap (§3–5), gap-checked: [[syscalls-my-summary]]. Go footguns:
     hence the `int(...)` to line up `byte` with `int`.
   - symbolic↔octal: build with shift-OR, extract with shift+mask (two directions of the same bits).
 
+- **CHAPTER-END (pt 2 / §6 execve) — quiz + summary, NOT this session.** The argv
+  pointer-indirection thread. Make him reconstruct, by hand: (a) execve wants `char **argv` =
+  **pointer to an array of pointers** (two levels); (b) `cargs[0]` (a `*byte`, value `0x5000`,
+  points at a string) vs `&cargs[0]` (a `**byte`, value `0x1000`, the address of slot 0 / start
+  of the list) — "right type, wrong level" if you pass `cargs[0]`; (c) the **unifying pattern**:
+  it's always `&x[0]`, and the *element type* sets the level — `pathBytes[0]` is a `byte` →
+  `&pathBytes[0]` = one-level `*byte`; `cargs[0]` is a `*byte` → `&cargs[0]` = two-level `**byte`;
+  (d) even execve mixes both — its **path** arg is a one-level `*byte` like `open`, only
+  **argv/envp** are two-level; (e) the termination symmetry — a **C string** stops at a `\0`
+  **byte**, an **argv array** stops at a `\0` **pointer** (NULL): same sentinel idea one level up
+  (the length-prefix-vs-sentinel choice from [[bytes-and-numbers]], C picks sentinel both times);
+  (f) the `*T ⇄ unsafe.Pointer ⇄ uintptr` **gate** — no direct `*T → uintptr`, `unsafe.Pointer`
+  is the mandatory bridge, and *why* (GC tracks `unsafe.Pointer`, ignores `uintptr` → golden rule:
+  write it inline, never store the `uintptr`). Visual explainer built this session:
+  claude.ai/artifact/HtXKguZCMbfZuZkZxhgH9o. (§6)
+
 - **After the summary: Prabhu wants a QUIZ across ALL core concepts so far (S2–S4), not just
   S4.** Spans: what systems programming is (own-the-byte-layout) · bytes/numbers (shifts,
   serialization, endianness) · UTF-8/Unicode (3 layers, decode, bytes-don't-carry-encoding) ·
